@@ -65,8 +65,6 @@ class Connection(ConnectionBase):
     def __init__(self, play_context, new_stdin, *args, **kwargs):
         super(Connection, self).__init__(play_context, new_stdin, *args, **kwargs)
 
-        self._display.vvvvv(u"PLAY CONTEXT {0}".format(play_context))
-        
         try:
             self._lxc_cmd = get_bin_path("lxc")
         except ValueError:
@@ -92,6 +90,7 @@ class Connection(ConnectionBase):
         super(Connection, self).exec_command(cmd, in_data=in_data, sudoable=sudoable)
 
         self._display.vvv(u"EXEC {0}".format(cmd), host=self._host())
+        self._display.vvvvv(u"PLAY CONTEXT {0}".format(self._play_context))
 
         local_cmd = [self._lxc_cmd]
         if self.get_option("project"):
