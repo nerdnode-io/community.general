@@ -65,6 +65,8 @@ class Connection(ConnectionBase):
     def __init__(self, play_context, new_stdin, *args, **kwargs):
         super(Connection, self).__init__(play_context, new_stdin, *args, **kwargs)
 
+        self._display.vvvvv(u"PLAY CONTEXT {0}".format(play_context))
+        
         try:
             self._lxc_cmd = get_bin_path("lxc")
         except ValueError:
