@@ -102,7 +102,7 @@ class Connection(ConnectionBase):
             "%s:%s" % (self.get_option("remote"), self._host()),
             "--",
             *local_executable,
-            *set(cmd.split("'")).intersection(local_executable)
+            *set(cmd.split()).intersection(local_executable)
         ])
 
 
