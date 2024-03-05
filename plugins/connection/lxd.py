@@ -102,7 +102,7 @@ class Connection(ConnectionBase):
             "%s:%s" % (self.get_option("remote"), self._host()),
             "--",
             self._play_context.executable, "-c",
-            *[x for x in cmd.split("'")[1:] if x]
+            *[x for x in cmd.split("'") if x and self._play_context.executable not in x]
         ])
 
         self._display.vvvvv(u"EXEC {0}".format(local_cmd), host=self._host())
