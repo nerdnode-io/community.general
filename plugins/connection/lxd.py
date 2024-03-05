@@ -92,7 +92,6 @@ class Connection(ConnectionBase):
         self._display.vvv(u"EXEC {0}".format(cmd), host=self._host())
         
         local_cmd = [self._lxc_cmd]
-        sanitized_cmd = cmd.split("'")[1:] = [x for x in strings if x]
         if self._play_context.become:
             local_cmd.insert(0, self._play_context.become_method)
         if self.get_option("project"):
