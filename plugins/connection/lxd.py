@@ -101,7 +101,8 @@ class Connection(ConnectionBase):
             "exec",
             "%s:%s" % (self.get_option("remote"), self._host()),
             "--",
-            self.get_option("executable"), "-c", re.findall(r"'(.*?)'", cmd, re.DOTALL)
+            self._play_context.executable, "-c", 
+            re.search(r"'(.*?)'", cmd, re.DOTALL) or cmd
         ])
 
         self._display.vvvvv(u"EXEC {0}".format(local_cmd), host=self._host())
