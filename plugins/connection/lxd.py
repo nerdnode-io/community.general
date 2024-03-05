@@ -135,6 +135,8 @@ class Connection(ConnectionBase):
             raise AnsibleFileNotFound("input path is not a file: %s" % in_path)
 
         local_cmd = [self._lxc_cmd]
+        if self._play_context.become:
+            local_cmd.insert(0, self._play_context.become_method)
         if self.get_option("project"):
             local_cmd.extend(["--project", self.get_option("project")])
         local_cmd.extend([
@@ -155,6 +157,8 @@ class Connection(ConnectionBase):
         self._display.vvv(u"FETCH {0} TO {1}".format(in_path, out_path), host=self._host())
 
         local_cmd = [self._lxc_cmd]
+        if self._play_context.become:
+            local_cmd.insert(0, self._play_context.become_method)
         if self.get_option("project"):
             local_cmd.extend(["--project", self.get_option("project")])
         local_cmd.extend([
