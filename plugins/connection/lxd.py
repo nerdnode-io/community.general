@@ -90,9 +90,12 @@ class Connection(ConnectionBase):
         super(Connection, self).exec_command(cmd, in_data=in_data, sudoable=sudoable)
 
         self._display.vvv(u"EXEC {0}".format(cmd), host=self._host())
+        self._display.vvvvv(u"PLAY EXEC {0}".format(self._play_context.executable))
         self._display.vvvvv(u"PLAY CONTEXT {0}".format(self._play_context.__dict__))
-
+        
         local_cmd = [self._lxc_cmd]
+        if self._play_context.become:
+            local_cmd.insert(0, self._play_context.become_method)
         if self.get_option("project"):
             local_cmd.extend(["--project", self.get_option("project")])
         local_cmd.extend([
