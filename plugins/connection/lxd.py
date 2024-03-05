@@ -100,7 +100,7 @@ class Connection(ConnectionBase):
             "exec",
             "%s:%s" % (self.get_option("remote"), self._host()),
             "--",
-            self.get_option("executable"), "-c", cmd
+            cmd
         ])
 
         self._display.vvvvv(u"EXEC {0}".format(local_cmd), host=self._host())
