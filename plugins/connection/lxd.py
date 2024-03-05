@@ -92,7 +92,7 @@ class Connection(ConnectionBase):
         self._display.vvv(u"EXEC {0}".format(cmd), host=self._host())
         
         local_cmd = [self._lxc_cmd]
-        local_executable = "{0} {1}".format(self._play_context.executable, "-c")
+        sanitized_cmd = cmd.split("'")[1:] = [x for x in strings if x]
         if self._play_context.become:
             local_cmd.insert(0, self._play_context.become_method)
         if self.get_option("project"):
@@ -101,10 +101,9 @@ class Connection(ConnectionBase):
             "exec",
             "%s:%s" % (self.get_option("remote"), self._host()),
             "--",
-            *set(local_executable).union(set(cmd.split("'")))
+            self._play_context.executable, "-c",
+            *[x for x in cmd.split("'")[1:] if x]
         ])
-
-
 
         self._display.vvvvv(u"EXEC {0}".format(local_cmd), host=self._host())
 
