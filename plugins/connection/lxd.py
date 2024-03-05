@@ -101,8 +101,7 @@ class Connection(ConnectionBase):
             "exec",
             "%s:%s" % (self.get_option("remote"), self._host()),
             "--",
-            *local_executable,
-            *set(cmd.split()).intersection(local_executable)
+            *set(local_executable).add(*cmd.split())
         ])
 
 
