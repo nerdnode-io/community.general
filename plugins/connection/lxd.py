@@ -47,6 +47,7 @@ DOCUMENTATION = '''
 '''
 
 import os
+import re
 from subprocess import Popen, PIPE
 
 from ansible.errors import AnsibleError, AnsibleConnectionFailure, AnsibleFileNotFound
@@ -100,7 +101,7 @@ class Connection(ConnectionBase):
             "exec",
             "%s:%s" % (self.get_option("remote"), self._host()),
             "--",
-            cmd
+            self.get_option("executable"), "-c", re.findall(r"'(.*?)'", cmd, re.DOTALL)
         ])
 
         self._display.vvvvv(u"EXEC {0}".format(local_cmd), host=self._host())
